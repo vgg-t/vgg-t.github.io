@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="We propose Visual Geometry Grounded Transformer (VGGT), a feed-forward neural network that directly predicts all key 3D scene attributes from single or multiple (up to hundreds) image views within seconds.">
+  <meta name="keywords" content="VGGT, Camera, Point map, Depth map, 3D reconstruction">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VGGT: Visual Geometry Grounded Transformer</title>
+
+
+  <meta property="og:title" content="VGGT: Visual Geometry Grounded Transformer." />
+  <meta property="og:description"
+    content="We propose Visual Geometry Grounded Transformer (VGGT), a feed-forward neural network that directly predicts all key 3D scene attributes from single or multiple (up to hundreds) image views within seconds." />
+  <!-- Twitter automatically scrapes this. Go to https://cards-dev.twitter.com/validator?
+      if you update and want to force Twitter to re-scrape. -->
+  <meta property="twitter:card" content="summary" />
+  <meta property="twitter:title" content="VGGT: Visual Geometry Grounded Transformer." />
+  <meta property="twitter:description"
+    content="We propose Visual Geometry Grounded Transformer (VGGT), a feed-forward neural network that directly predicts all key 3D scene attributes from single or multiple (up to hundreds) image views within seconds." />
+  <!-- <meta property="twitter:image"         content="https://3dmagicpony.github.io/resources/overview.jpg" /> -->
+
+  <!-- MathJax library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSQGH8Q0WV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-TSQGH8Q0WV');
+  </script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href=""> -->
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <!-- <script src="./static/js/index.js"></script> -->
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <!-- <div class="columns is-centered">
+        <video id="banner" autoplay muted loop playsinline height="100%">
+          <source src="resources/carousel.mp4"
+                  type="video/mp4">
+        </video>
+      </div> -->
+        <br>
+
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-3 publication-title" style="font-size: 2rem;">VGGT: Visual Geometry Grounded Transformer</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://jytime.github.io/">Jianyuan Wang</a><sup>1, 2</sup>,
+              </span>
+              &nbsp;&nbsp;&nbsp;
+              <span class="author-block">
+                <a href="https://silent-chen.github.io/">Minghao Chen</a><sup>1, 2</sup>,
+              </span>
+              &nbsp;&nbsp;&nbsp;
+              <span class="author-block"> 
+                <a href="https://nikitakaraevv.github.io/">Nikita Karaev</a><sup>1, 2</sup>
+              </span>
+              <br>
+              <span class="author-block">
+                <a href="https://www.robots.ox.ac.uk/~vedaldi/">Andrea Vedaldi</a><sup>1, 2</sup>,
+              </span>
+              &nbsp;&nbsp;&nbsp;
+              <span class="author-block">
+                <a href="https://chrirupp.github.io/">Christian Rupprecht</a><sup>1</sup>,
+              </span>
+              &nbsp;&nbsp;&nbsp;
+              <span class="author-block">
+                <a href="https://d-novotny.github.io/">David Novotny</a><sup>2</sup>
+              </span>
+            </div>
+
+
+
+            <div class="is-size-5 publication-authors" style="margin-bottom: 10px;">
+              <span class="author-block" style="margin-right: 10px;"><sup>1</sup>Visual Geometry Group, University of
+                Oxford,</span>
+              <span class="author-block"><sup>2</sup>Meta AI</span>
+            </div>
+
+            <h3 class="text-dark" style="font-size: calc(12px + 0.5vw);">IEEE/CVF Conference on Computer Vision and
+              Pattern Recognition (CVPR) 2025</h3>
+
+
+            <!-- <h3 class="text-dark mb-4" style="font-size: calc(12px + 0.5vw);"><a href="" style="color:#e64a41"><b>Best Paper Award</b></a></h3> -->
+            <!-- publication-awards -->
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="https://github.com/facebookresearch/vggt"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <!-- Demo Link -->
+                <span class="link-block">
+                  <a href="https://huggingface.co/spaces/facebook/vggt"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span>🤗 Demo</span>
+                  </a>
+                </span>
+                <!-- https://github.com/facebookresearch/vggsfm -->
+                <!-- <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Supp Material (soon)</span>
+                </a>
+              </span> -->
+                <!-- <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+
+        <!-- <h2 class="subtitle"> -->
+        <video id="teaser" autoplay muted loop playsinline height="100%">
+          <source src="resources/Colosseum.mp4" type="video/mp4">
+        </video>
+        <h2 class="subtitle" style="text-align: center;">
+          Visualization of VGGT reconstructions from multiple observation angles.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+
+      <div class="columns is-centered">
+        <div class="column is-full-width has-text-centered">
+          <!-- <h2 class="title is-3">Camera Pose Estimation</h2> -->
+
+
+          <h2 class="title is-5">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              We present <b>VGGT</b>, a feed-forward neural network that directly infers all key 3D attributes of a scene, including camera parameters, point maps, depth maps, and 3D point tracks, from one, a few, or hundreds of its views.
+              This approach is a step forward in 3D computer vision, where models have typically been constrained to and specialized for single tasks.
+              It is also simple and efficient, reconstructing images in under one second, and still outperforming alternatives without their post-processing utilizing visual geometry optimization techniques.
+              The network achieves state-of-the-art results in multiple 3D tasks, including camera parameter estimation, multi-view depth estimation, dense point cloud reconstruction, and point tracking.
+              We also show that using pretrained <b>VGGT</b> as a feature backbone significantly enhances  downstream tasks, such as non-rigid point tracking and feed-forward novel view synthesis. 
+            </p>
+          </div>
+          <br>
+
+
+          <h2 class="title is-5">Method</h2>
+          <div class="content has-text-justified">
+            <p>
+              <strong>TODO!!!!</strong>
+            </p>
+          </div>
+          <div class="content has-text-centered">
+            <img id="teaser" src="https://placehold.co/600x400" alt="Teaser image" style="width: 100%;">
+          </div>
+          <br>
+
+
+          <h2 class="title is-5">Qualitative Visualization</h2>
+          <div class="content has-text-centered">
+            <p>
+              Reconstruction of In-the-wild Photos/Videos with VGGT.
+            </p>
+          </div>
+          <div class="model-viewer-container">
+            <model-viewer id="QualitativeResult"
+                          src="resources/glbs/ours/paint_with_camera.glb"
+                          alt="3D Model"
+                          loading="eager"
+                          touch-action="pan-y" environment-image="legacy"
+                          camera-orbit="180deg 70deg auto" 
+                          zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
+                        max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
+                        disable-shadow ar-modes="webxr scene-viewer quick-look"
+                        style="width: 100%; height: 100%; background: #ffffff;">
+            </model-viewer>
+          </div>
+          <br>
+          <div class="content has-text-centered">
+          <div class="thumbnail-container", id="thumbnail-qualitative">
+            <img src="resources/paint.png" data-glb="resources/glbs/ours/paint_with_camera.glb">
+            <video src="resources/Colosseum.mp4" data-glb="resources/glbs/ours/Colosseum_with_camera.glb" autoplay loop playsinline muted>  </video>
+          </div>  
+        </div>  
+        <script>
+          document.querySelectorAll('#thumbnail-qualitative img, #thumbnail-qualitative video').forEach(el => {
+              el.addEventListener('click', () => {
+                  const glbSrc = el.getAttribute('data-glb');
+                  const modelViewer = document.getElementById('QualitativeResult');
+                  modelViewer.setAttribute('src', glbSrc);
+                  modelViewer.cameraOrbit = "180deg 70deg auto";
+                  modelViewer.resetTurntableRotation(0);
+                  modelViewer.jumpCameraToGoal();
+
+                  // Remove border from all elements
+                  document.querySelectorAll('#thumbnail-qualitative img, #thumbnail-qualitative video').forEach(element => {
+                      element.style.border = 'none';
+                  });
+                  
+                  // Add border to clicked element
+                  el.style.border = '6px solid #43a3f6';
+              });
+          });
+          </script>
+          <h2 class="title is-5">Qualitative Comparison</h2>
+          <div class="content has-text-justified" style="align-self: flex-start;">
+            <p>
+               TODO!!!!
+            </p>
+          </div>
+
+
+          <div class="model-container" id="model-compare-wrapper">
+            <!-- Model 1 Viewer with Label -->
+            <div class="model-wrapper-comparison">
+              <div class="model-label">VGGT</div>
+              <model-viewer id="modelViewerComparison1" loading="eager"
+                touch-action="pan-y" environment-image="legacy"
+                src="resources/glbs/ours/Colosseum.glb"
+                zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
+                max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
+                style="width: 100%; height: 100%;  background: #ffffff;">
+              </model-viewer>
+            </div>
+            <!-- Model 2 Viewer with Label -->
+            <div class="model-wrapper-comparison">
+              <div class="model-label">DUSt3R</div>
+              <model-viewer id="modelViewerComparison2"loading="eager"
+                touch-action="pan-y" environment-image="legacy"
+                src="resources/glbs/dust3r/Colosseum.glb"
+                zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
+                max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
+                style="width: 100%; height: 100%; background: #ffffff;">
+              </model-viewer>
+            </div>
+            <!-- Model 3 Viewer with Label -->
+            <div class="model-wrapper-comparison">
+              <select id="comparisonBaselineSelection" class="dropdown model-label">
+                <option value="mvdust3r">MV-DUSt3R</option>
+                <option value="fast3r">Fast3R</option>
+              </select>
+              <model-viewer id="modelViewerComparison3" loading="eager"
+                touch-action="pan-y" environment-image="legacy"
+                src="resources/glbs/mvdust3r/Colosseum.glb"
+                zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
+                max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
+                style="width: 100%; height: 100%; background: #ffffff;">
+              </model-viewer>
+            </div>
+          </div>
+          <div class="hero-body" style="padding: 0;">
+            <div class="content has-text-centered">
+              <div class="thumbnail-container", id="thumbnail-comparison", data-selected-name="Colosseum">
+                <video src="resources/Colosseum.mp4" name="Colosseum" autoplay loop playsinline muted>  </video>
+                <video src="resources/pyramid.mp4" name="pyramid" autoplay loop playsinline muted>  </video>
+              </div>  
+            </div>  
+            <!-- <div class="selection-panel" id="comparisonSelectionPanel"
+              style="width: 90% !important; aspect-ratio: 3.8/1; margin-left: 5%;">
+              <img class="selectable-image selected" name="pyramid">
+              <img class="selectable-image" name="animate_girl">
+            </div> -->
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+
+  <!--/BibTeX. -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>TODO!!!</code></pre>
+    </div>
+  </section>
+
+  <section class="section" id="Acknowledgements">
+    <div class="container is-max-desktop content">
+      <h2 class="title">Acknowledgements</h2>
+      <p>
+        TODO!!!
+      </p>
+      <!-- <p> -->
+      <!-- Jianyuan Wang is supported by Facebook Research.  -->
+      <!-- </p> -->
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This webpage template is adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>,
+              under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 License</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="static/js/comparison.js"></script>
+
+</body>
+
+</html>
