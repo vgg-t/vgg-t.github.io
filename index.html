@@ -226,7 +226,7 @@
           </div>
           <div class="model-viewer-container">
             <model-viewer id="QualitativeResult"
-                          src="resources/qualitative/colosseum_v3.glb"
+                          src="resources/qualitative/college_v2.glb"
                           alt="3D Model"
                           loading="eager"
                           touch-action="pan-y" environment-image="legacy"
@@ -240,10 +240,10 @@
           <br>
           <div class="content has-text-centered">
             <div class="thumbnail-container" id="thumbnail-qualitative">
+              <img src="resources/qualitative/college.png" data-glb="resources/qualitative/college_v2.glb">
               <video src="resources/qualitative/pyramid.mp4" data-glb="resources/qualitative/pyramid_v2.glb" autoplay loop playsinline muted></video>
               <video src="resources/qualitative/outdoor_room.mp4" data-glb="resources/qualitative/outdoor_room_v2.glb" autoplay loop playsinline muted></video>
               <video src="resources/qualitative/colosseum.mp4" data-glb="resources/qualitative/colosseum_v3.glb" autoplay loop playsinline muted></video>
-              <img src="resources/qualitative/college.png" data-glb="resources/qualitative/college_v2.glb">
               <img src="resources/qualitative/chess.jpg" data-glb="resources/qualitative/chess_v2.glb">
               <img src="resources/qualitative/indoor.jpg" data-glb="resources/qualitative/indoor_v2.glb">
             </div>  
@@ -264,7 +264,7 @@
           </style>
           <script>
             // Set the first thumbnail as selected initially
-            document.querySelector('#thumbnail-qualitative video, #thumbnail-qualitative img').classList.add('thumbnail-selected');
+            document.querySelector('#thumbnail-qualitative img[src="resources/qualitative/college.png"]').classList.add('thumbnail-selected');
             
             document.querySelectorAll('#thumbnail-qualitative img, #thumbnail-qualitative video').forEach(el => {
                 el.addEventListener('click', () => {
