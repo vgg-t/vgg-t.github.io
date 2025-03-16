@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="We propose Visual Geometry Grounded Transformer (VGGT), a feed-forward neural network that directly predicts all key 3D scene attributes from single or multiple (up to hundreds) image views within seconds.">
+  <meta name="keywords" content="VGGT, Camera, Point map, Depth map, 3D reconstruction">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VGGT: Visual Geometry Grounded Transformer</title>
+
+  <!-- Example meta tags, fonts, analytics, etc. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSQGH8Q0WV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-TSQGH8Q0WV');
+  </script>
+
+  <!-- Model Viewer -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+
+  <!-- Bulma, your CSS, etc. -->
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+</head>
+
+<body>
+
+<section class="section">
+  <div class="container">
+    <h2 class="title is-5 has-text-centered">Qualitative Visualization</h2>
+    <p class="has-text-centered">Reconstruction of In-the-wild Photos/Videos with VGGT.</p>
+
+    <!-- Real-time debug: shows the current camera orbit for debugging -->
+    <div class="has-text-centered" style="margin-bottom: 1em;">
+      <p id="camera-orbit-display" class="is-size-5 has-text-weight-semibold">
+        Azimuth: --, Polar: --, Radius: --
+      </p>
+    </div>
+
+    <!-- Model Viewer element -->
+    <div style="max-width: 800px; margin: 0 auto;">
+      <model-viewer id="QualitativeResult"
+                    src="resources/qualitative/indoor_v2.glb"
+                    alt="3D Model"
+                    camera-controls
+                    touch-action="pan-y"
+                    environment-image="legacy"
+                    camera-orbit="180deg 70deg auto"
+                    zoom-sensitivity="0.2"
+                    min-camera-orbit="auto auto 1m"
+                    max-camera-orbit="auto auto 10m"
+                    interaction-prompt="none"
+                    shadow-intensity="0"
+                    ar
+                    disable-shadow
+                    ar-modes="webxr scene-viewer quick-look"
+                    style="width:100%; height:500px; background:#ffffff; border: 3px solid #43a3f6; border-radius: 8px;">
+      </model-viewer>
+    </div>
+
+    <!-- Button to trigger camera animation -->
+    <div class="has-text-centered" style="margin-top: 1em;">
+      <button id="start-animation" class="button is-primary">
+        Start Camera Trajectory
+      </button>
+    </div>
+
+    <!-- Thumbnails to switch .glb files (optional) -->
+    <div id="thumbnail-qualitative" class="has-text-centered" style="margin-top: 1em;">
+      <!-- Example: an IMG or video that changes the src. We show a PNG for the indoor. -->
+      <img src="resources/qualitative/indoor.jpg"
+           data-glb="${indoorGlbPath}"
+           style="height:100px; margin:0 5px; border:2px solid #ccc;">
+    </div>
+
+  </div>
+</section>
+
+<script>
+  //--------------------------------------------------------------------
+  // 1) Switch GLB files when thumbnails are clicked
+  //--------------------------------------------------------------------
+  const modelViewer = document.getElementById('QualitativeResult');
+  
+  // Define the indoor GLB path as a variable
+  const indoorGlbPath = src="resources/qualitative/indoor_v2.glb";
+  
+  // Set the initial model source
+  window.addEventListener('DOMContentLoaded', () => {
+    modelViewer.src = indoorGlbPath;
+    
+    const indoorThumb = document.querySelector(`img[data-glb="${indoorGlbPath}"]`);
+    if (indoorThumb) {
+      indoorThumb.style.border = '4px solid #43a3f6';
+    }
+  });
+
+  document.querySelectorAll('#thumbnail-qualitative img').forEach(el => {
+    el.addEventListener('click', () => {
+      const glbSrc = el.getAttribute('data-glb');
+      modelViewer.src = glbSrc;
+      modelViewer.cameraOrbit = '180deg 70deg auto';
+
+      // Clear highlight from all thumbnails
+      document.querySelectorAll('#thumbnail-qualitative img').forEach(elem => {
+        elem.style.border = '2px solid #ccc';
+      });
+      // Highlight this one
+      el.style.border = '4px solid #43a3f6';
+    });
+  });
+
+  //--------------------------------------------------------------------
+  // 2) Waypoints with individual durations and smooth camera orbit
+  //--------------------------------------------------------------------
+  const playSpeed = 0.8;
+  const segmentDelay = 600; // Delay between segments in ms
+  const waypoints = [
+  { azimuth: 190, polar: 95,  radius: 2.4, duration: 2 * playSpeed },  
+  { azimuth: 190, polar: 95,  radius: 2.4, duration: 3 * playSpeed },  
+  { azimuth: 217, polar: 88,  radius: 2.3, duration: 4 * playSpeed },  
+  { azimuth: 170, polar: 50,  radius: 2.3, duration: 4 * playSpeed },  
+  { azimuth: 145, polar: 93,  radius: 2.5, duration: 4 * playSpeed },  
+  ];
+
+  let currentSegment = 0;
+  let frame = 0;
+  let animationRequestId;
+  const fps = 60;
+  let totalFrames = 0;
+
+  // Cubic easing function for smooth acceleration and deceleration
+  function easeInOutQuad(t) {
+    return (t < 0.5)
+      ? 2 * t * t
+      : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  }
+  
+  // Interpolation with easing
+  function smoothLerp(a, b, t) {
+    const easedT = easeInOutQuad(t);
+    return a + (b - a) * easedT;
+  }
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function animateSegment() {
+    // If we're at or beyond the last waypoint, stop
+    if (currentSegment >= waypoints.length - 1) {
+      return;
+    }
+
+    const start = waypoints[currentSegment];
+    const end = waypoints[currentSegment + 1];
+
+    // Determine how many seconds for this segment
+    const durationSec = start.duration || 0;
+    totalFrames = fps * durationSec;
+
+    // If duration is 0 or negative, skip to next
+    if (totalFrames <= 0) {
+      currentSegment++;
+      frame = 0;
+      requestAnimationFrame(animateSegment);
+      return;
+    }
+
+    const t = frame / totalFrames; // 0..1
+
+    // Compute each parameter
+    const azimuth = lerp(start.azimuth, end.azimuth, t);
+    const polar   = lerp(start.polar,   end.polar,   t);
+    const radius  = lerp(start.radius,  end.radius,  t);
+
+    modelViewer.cameraOrbit = `${azimuth}deg ${polar}deg ${radius}m`;
+
+    frame++;
+    if (frame > totalFrames) {
+      // Move to next segment and pause for segmentDelay milliseconds
+      currentSegment++;
+      frame = 0;
+      setTimeout(() => {
+        if (currentSegment < waypoints.length - 1) {
+          animationRequestId = requestAnimationFrame(animateSegment);
+        }
+      }, segmentDelay);
+    } else {
+      animationRequestId = requestAnimationFrame(animateSegment);
+    }
+  }
+
+  function startSmoothAnimation() {
+    cancelAnimationFrame(animationRequestId);
+    currentSegment = 0;
+    frame = 0;
+    animateSegment();
+  }
+
+  document.getElementById('start-animation').addEventListener('click', () => {
+    startSmoothAnimation();
+  });
+
+  //--------------------------------------------------------------------
+  // 3) Real-time camera debug display
+  //--------------------------------------------------------------------
+  const orbitDisplay = document.getElementById('camera-orbit-display');
+  modelViewer.addEventListener('camera-change', () => {
+    // getCameraOrbit() returns {theta, phi, radius} in radians and meters
+    const orbit = modelViewer.getCameraOrbit();
+    const azimuthDeg = orbit.theta * 180 / Math.PI;
+    const polarDeg   = orbit.phi   * 180 / Math.PI;
+    const radiusM    = orbit.radius;
+
+    orbitDisplay.textContent = 
+      `Azimuth: ${azimuthDeg.toFixed(2)}°, ` +
+      `Polar: ${polarDeg.toFixed(2)}°, ` +
+      `Radius: ${radiusM.toFixed(2)}m`;
+  });
+</script>
+
+</body>
+</html>

@@ -177,10 +177,9 @@
 
         <!-- <h2 class="subtitle"> -->
         <video id="teaser" autoplay muted loop playsinline height="100%">
-          <source src="resources/Colosseum.mp4" type="video/mp4">
+          <source src="resources/teaser_video.mp4" type="video/mp4">
         </video>
         <h2 class="subtitle" style="text-align: center;">
-          Visualization of VGGT reconstructions from multiple observation angles.
         </h2>
       </div>
     </div>
@@ -211,11 +210,12 @@
           <h2 class="title is-5">Method</h2>
           <div class="content has-text-justified">
             <p>
-              <strong>TODO!!!!</strong>
+              VGGT first patchifies the input images into tokens by DINO, and appends camera tokens for camera prediction. It then alternates between frame-wise and global self attention layers. A camera head makes the final prediction for camera extrinsics and intrinsics, while a DPT head for any dense output, such as depth maps, point maps, or feature maps for tracking.
             </p>
           </div>
           <div class="content has-text-centered">
-            <img id="teaser" src="https://placehold.co/600x400" alt="Teaser image" style="width: 100%;">
+            <!-- <img id="teaser" src="https://placehold.co/600x400" alt="Teaser image" style="width: 100%;"> -->
+            <img id="teaser" src="resources/architecture_v4.png" alt="Architecture" style="width: 100%;">
           </div>
           <br>
 
@@ -223,12 +223,12 @@
           <h2 class="title is-5">Qualitative Visualization</h2>
           <div class="content has-text-centered">
             <p>
-              Reconstruction of In-the-wild Photos/Videos with VGGT.
+              Reconstruction of In-the-wild Photos/Videos with VGGT. Click on any thumbnail below to view the 3D reconstruction.
             </p>
           </div>
           <div class="model-viewer-container">
             <model-viewer id="QualitativeResult"
-                          src="resources/glbs/ours/paint_with_camera.glb"
+                          src="resources/qualitative/colosseum_v3.glb"
                           alt="3D Model"
                           loading="eager"
                           touch-action="pan-y" environment-image="legacy"
@@ -241,35 +241,56 @@
           </div>
           <br>
           <div class="content has-text-centered">
-          <div class="thumbnail-container", id="thumbnail-qualitative">
-            <img src="resources/paint.png" data-glb="resources/glbs/ours/paint_with_camera.glb">
-            <video src="resources/Colosseum.mp4" data-glb="resources/glbs/ours/Colosseum_with_camera.glb" autoplay loop playsinline muted>  </video>
+            <div class="thumbnail-container" id="thumbnail-qualitative">
+              <video src="resources/qualitative/pyramid.mp4" data-glb="resources/qualitative/pyramid_v2.glb" autoplay loop playsinline muted></video>
+              <video src="resources/qualitative/outdoor_room.mp4" data-glb="resources/qualitative/outdoor_room_v2.glb" autoplay loop playsinline muted></video>
+              <video src="resources/qualitative/colosseum.mp4" data-glb="resources/qualitative/colosseum_v3.glb" autoplay loop playsinline muted></video>
+              <img src="resources/qualitative/college.png" data-glb="resources/qualitative/college_v2.glb">
+              <img src="resources/qualitative/chess.jpg" data-glb="resources/qualitative/chess_v2.glb">
+              <img src="resources/qualitative/indoor.jpg" data-glb="resources/qualitative/indoor_v2.glb">
+            </div>  
           </div>  
-        </div>  
-        <script>
-          document.querySelectorAll('#thumbnail-qualitative img, #thumbnail-qualitative video').forEach(el => {
-              el.addEventListener('click', () => {
-                  const glbSrc = el.getAttribute('data-glb');
-                  const modelViewer = document.getElementById('QualitativeResult');
-                  modelViewer.setAttribute('src', glbSrc);
-                  modelViewer.cameraOrbit = "180deg 70deg auto";
-                  modelViewer.resetTurntableRotation(0);
-                  modelViewer.jumpCameraToGoal();
+          <style>
+            .thumbnail-container img, .thumbnail-container video {
+              transition: all 0.3s ease;
+              border: 3px solid transparent;
+              cursor: pointer;
+            }
+            .thumbnail-selected {
+              transform: scale(1.2);
+              border: 6px solid #79b4f2 !important; 
+              box-shadow: 0 0 10px rgba(121, 180, 242, 0.5);
+              z-index: 10;
+              position: relative;
+            }
+          </style>
+          <script>
+            // Set the first thumbnail as selected initially
+            document.querySelector('#thumbnail-qualitative video, #thumbnail-qualitative img').classList.add('thumbnail-selected');
+            
+            document.querySelectorAll('#thumbnail-qualitative img, #thumbnail-qualitative video').forEach(el => {
+                el.addEventListener('click', () => {
+                    const glbSrc = el.getAttribute('data-glb');
+                    const modelViewer = document.getElementById('QualitativeResult');
+                    modelViewer.setAttribute('src', glbSrc);
+                    modelViewer.cameraOrbit = "180deg 70deg auto";
+                    modelViewer.resetTurntableRotation(0);
+                    modelViewer.jumpCameraToGoal();
 
-                  // Remove border from all elements
-                  document.querySelectorAll('#thumbnail-qualitative img, #thumbnail-qualitative video').forEach(element => {
-                      element.style.border = 'none';
-                  });
-                  
-                  // Add border to clicked element
-                  el.style.border = '6px solid #43a3f6';
-              });
-          });
+                    // Remove selection class from all elements
+                    document.querySelectorAll('#thumbnail-qualitative img, #thumbnail-qualitative video').forEach(element => {
+                        element.classList.remove('thumbnail-selected');
+                    });
+                    
+                    // Add selection class to clicked element
+                    el.classList.add('thumbnail-selected');
+                });
+            });
           </script>
           <h2 class="title is-5">Qualitative Comparison</h2>
           <div class="content has-text-justified" style="align-self: flex-start;">
             <p>
-               TODO!!!!
+               Coming 
             </p>
           </div>
 
@@ -339,19 +360,32 @@
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
-      <pre><code>TODO!!!</code></pre>
+      <pre><code>@inproceedings{wang2025vggt,
+  title={VGGT: Visual Geometry Grounded Transformer},
+  author={Wang, Jianyuan and Chen, Minghao and Karaev, Nikita and Vedaldi, Andrea and Rupprecht, Christian and Novotny, David},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  year={2025}
+}</code></pre>
     </div>
   </section>
+
+  
 
   <section class="section" id="Acknowledgements">
     <div class="container is-max-desktop content">
       <h2 class="title">Acknowledgements</h2>
       <p>
-        TODO!!!
+        Jianyuan Wang is supported by Facebook Research.
       </p>
-      <!-- <p> -->
-      <!-- Jianyuan Wang is supported by Facebook Research.  -->
-      <!-- </p> -->
+      <p>
+        We are deeply grateful for the insightful discussions and invaluable support provided by Stanislaw Szymanowicz,  Junyu Xie, Johannes Schönberger, Shangzhe Wu, Chuanxia Zheng, Junlin Han, Ang Cao, Nikhil Keetha, Shangzhan Zhang, Yuxi Xiao, Qianqian Wang, Yinghao Xu, Ceyuan Yang, Nan Xue, Yujun Shen, Roman Shapovalov, João Henriques, and Andrew Zisserman.
+      </p>
+      <p>
+        We appreciate the great examples provided by Depth-Anything-V2 and Metric3D V2.
+      </p>
+      <p>
+        Special thanks to Jianing Yang, Ang Cao, Zhenggang Tang, Yuchen Fan, Shangzhan Zhang, and Qianqian Wang for providing or verifying the results of their methods.
+      </p>
     </div>
   </section>
 
