@@ -231,7 +231,7 @@
           </div>
           <div class="model-viewer-container">
             <model-viewer id="QualitativeResult"
-                          src="resources/qualitative/college_v2.glb"
+                          src="resources/qualitative/pyramid.glb"
                           alt="3D Model"
                           loading="eager"
                           touch-action="pan-y" environment-image="legacy"
@@ -245,10 +245,11 @@
           <br>
           <div class="content has-text-centered">
             <div class="thumbnail-container" id="thumbnail-qualitative">
-              <img src="resources/qualitative/college.png" data-glb="resources/qualitative/college_v2.glb">
-              <video src="resources/qualitative/pyramid.mp4" data-glb="resources/qualitative/pyramid_v3.glb" loop playsinline muted></video>
-              <video src="resources/qualitative/outdoor_room.mp4" data-glb="resources/qualitative/outdoor_room_v2.glb" loop playsinline muted></video>
+              <!-- <img src="resources/qualitative/college.png" data-glb="resources/qualitative/college_v2.glb"> -->
+              <video src="resources/qualitative/pyramid.mp4" data-glb="resources/qualitative/pyramid.glb" loop playsinline muted></video>
               <video src="resources/qualitative/colosseum.mp4" data-glb="resources/qualitative/colosseum_v4.glb" loop playsinline muted></video>
+              <video src="resources/qualitative/outdoor_room.mp4" data-glb="resources/qualitative/outdoor_room_v2.glb" loop playsinline muted></video>
+              <video src="resources/qualitative/courtroom.mp4" data-glb="resources/qualitative/courtroom_v2.glb" loop playsinline muted></video>
               <img src="resources/qualitative/chess.jpg" data-glb="resources/qualitative/chess_v2.glb">
               <img src="resources/qualitative/indoor.jpg" data-glb="resources/qualitative/indoor_v2.glb">
             </div>  
@@ -309,7 +310,7 @@
           <h2 class="title is-4" style="font-weight: 700;">Qualitative Comparison</h2>
           <div class="content has-text-justified" style="align-self: flex-start;">
             <p>
-               Coming 
+               VGGT significantly outperforms all other methods across various tasks. Please refer to our paper for quantitative results. Here we also provide a qualitative comparison with DUSt3R and other concurrent works such as MV-DUSt3R.
             </p>
           </div>
 
@@ -320,7 +321,7 @@
               <div class="model-label">VGGT</div>
               <model-viewer id="modelViewerComparison1" loading="eager"
                 touch-action="pan-y" environment-image="legacy"
-                src="resources/glbs/ours/Colosseum.glb"
+                src="resources/comparison/ours/oil.glb"
                 zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
                 max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
                 style="width: 100%; height: 100%;  background: #ffffff;">
@@ -331,7 +332,7 @@
               <div class="model-label">DUSt3R</div>
               <model-viewer id="modelViewerComparison2"loading="eager"
                 touch-action="pan-y" environment-image="legacy"
-                src="resources/glbs/dust3r/Colosseum.glb"
+                src="resources/comparison/dust3r/oil.glb"
                 zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
                 max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
                 style="width: 100%; height: 100%; background: #ffffff;">
@@ -345,7 +346,7 @@
               </select>
               <model-viewer id="modelViewerComparison3" loading="eager"
                 touch-action="pan-y" environment-image="legacy"
-                src="resources/glbs/mvdust3r/Colosseum.glb"
+                src="resources/comparison/mvdust3r/oil.glb"
                 zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
                 max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
                 style="width: 100%; height: 100%; background: #ffffff;">
@@ -354,9 +355,9 @@
           </div>
           <div class="hero-body" style="padding: 0;">
             <div class="content has-text-centered">
-              <div class="thumbnail-container", id="thumbnail-comparison", data-selected-name="Colosseum">
-                <video src="resources/Colosseum.mp4" name="Colosseum" loop playsinline muted>  </video>
-                <video src="resources/pyramid.mp4" name="pyramid" loop playsinline muted>  </video>
+              <div class="thumbnail-container", id="thumbnail-comparison", data-selected-name="Colosseum">                <img src="resources/comparison/assets/oil.png" name="oil">
+                <img src="resources/comparison/assets/college.png" name="college">
+                <!-- <video src="resources/comparison/assets/pyramid.mp4" name="pyramid" loop playsinline muted></video> -->
               </div>  
             </div>  
           </div>

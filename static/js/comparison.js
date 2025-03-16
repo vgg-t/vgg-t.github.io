@@ -30,9 +30,9 @@ document.querySelectorAll('#thumbnail-comparison img, #thumbnail-comparison vide
         // Store the selected name as an attribute on the thumbnail-comparison container
         document.getElementById('thumbnail-comparison').setAttribute('data-selected-name', name);
 
-        const meshPath1 = `resources/glbs/ours/${name}.glb`
-        const meshPath2 = `resources/glbs/dust3r/${name}.glb`
-        const meshPath3 = `resources/glbs/${baseline}/${name}.glb`
+        const meshPath1 = `resources/comparison/ours/${name}.glb`
+        const meshPath2 = `resources/comparison/dust3r/${name}.glb`
+        const meshPath3 = `resources/comparison/${baseline}/${name}.glb`
 
         modelViewerComparison1.src = meshPath1;
         modelViewerComparison1.cameraOrbit = "180deg auto auto";
@@ -85,33 +85,4 @@ document.getElementById('comparisonBaselineSelection').addEventListener('change'
     const meshPath3 = `resources/glbs/${baseline}/${name}.glb`;
     modelViewerComparison3.src = meshPath3;
 
-});
-
-// Sync the view of three model viewers
-let activeViewer = null;
-let syncEnabled = true;
-
-const viewers = [modelViewerComparison1, modelViewerComparison2, modelViewerComparison3];
-
-const syncView = (event) => {
-    if (!syncEnabled || event.target !== activeViewer) return;
-
-    const sourceOrbit = activeViewer.getCameraOrbit();
-    const sourceTarget = activeViewer.getCameraTarget();
-    const sourceFoV = activeViewer.getFieldOfView();
-
-    viewers.forEach(viewer => {
-        if (viewer !== activeViewer) {
-            viewer.cameraOrbit = `${sourceOrbit.theta}rad ${sourceOrbit.phi}rad ${sourceOrbit.radius}m`;
-            viewer.cameraTarget = `${sourceTarget.x}m ${sourceTarget.y}m ${sourceTarget.z}m`;
-            viewer.fieldOfView = `${sourceFoV}deg`;
-            viewer.jumpCameraToGoal();
-        }
-    });
-};
-
-viewers.forEach(viewer => {
-    viewer.addEventListener('camera-change', syncView);
-    viewer.addEventListener('mousedown', () => { activeViewer = viewer; });
-    viewer.addEventListener('wheel', () => { activeViewer = viewer; });
 });
