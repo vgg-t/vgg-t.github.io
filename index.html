@@ -45,15 +45,12 @@
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <!-- <link rel="icon" href=""> -->
-
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
-  <!-- <script src="./static/js/index.js"></script> -->
 </head>
 
 <body>
@@ -61,17 +58,9 @@
   <section class="hero">
     <div class="hero-body">
       <div class="container is-max-desktop">
-        <!-- <div class="columns is-centered">
-        <video id="banner" autoplay muted loop playsinline height="100%">
-          <source src="resources/carousel.mp4"
-                  type="video/mp4">
-        </video>
-      </div> -->
-        <br>
-
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-3 publication-title" style="font-size: 2rem;">VGGT: Visual Geometry Grounded Transformer</h1>
+            <h1 class="title is-4 publication-title" style="font-size: 2rem;">VGGT: Visual Geometry Grounded Transformer</h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
                 <a href="https://jytime.github.io/">Jianyuan Wang</a><sup>1, 2</sup>,
@@ -109,15 +98,11 @@
             <h3 class="text-dark" style="font-size: calc(12px + 0.5vw);">IEEE/CVF Conference on Computer Vision and
               Pattern Recognition (CVPR) 2025</h3>
 
-
-            <!-- <h3 class="text-dark mb-4" style="font-size: calc(12px + 0.5vw);"><a href="" style="color:#e64a41"><b>Best Paper Award</b></a></h3> -->
-            <!-- publication-awards -->
-
             <div class="column has-text-centered">
               <div class="publication-links">
                 <!-- PDF Link. -->
                 <span class="link-block">
-                  <a href="" class="external-link button is-normal is-rounded is-dark">
+                  <a href="https://jytime.github.io/data/VGGT_CVPR25.pdf" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fas fa-file-pdf"></i>
                     </span>
@@ -141,25 +126,6 @@
                     <span>🤗 Demo</span>
                   </a>
                 </span>
-                <!-- https://github.com/facebookresearch/vggsfm -->
-                <!-- <span class="link-block">
-                <a href=""
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Supp Material (soon)</span>
-                </a>
-              </span> -->
-                <!-- <span class="link-block">
-                <a href=""
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span> -->
               </div>
 
             </div>
@@ -170,29 +136,68 @@
   </section>
 
 
+  <style>
+    .video-border {
+      display: inline-block;
+      padding: 2px; /* adjust thickness of your 'border' */
+      border-radius: 4px;
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4); /* try different gradient colors */
+    }
+    .video-border video {
+      display: block;
+      border: none;
+      border-radius: 4px; /* match the wrapper for a consistent look */
+    }
+  </style>
 
+  <style>
+    #teaser-video {
+      max-width: 85%;
+      margin: 0 auto;
+      display: block;
+      border: none; /* remove the solid border */
+      border-radius: 4px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    
+    #architecture-img {
+      width: 90%;
+      margin: 0 auto;
+      display: block;
+      border: none;
+      border-radius: 0; /* removed border radius */
+      box-shadow: none; /* removed box shadow */
+    }
+    
+    /* Enhanced style to further reduce space between buttons and teaser video */
+    .hero.teaser {
+      padding-top: 0;
+      margin-top: -3rem; /* Added negative margin to pull the teaser section up */
+    }
+    .hero.teaser .hero-body {
+      padding-top: 0; /* Reduced from 1rem to 0 */
+    }
+  </style>
   <section class="hero teaser">
     <div class="container is-max-desktop">
       <div class="hero-body">
-        <video id="teaser" autoplay muted loop playsinline height="100%">
-          <source src="./resources/teaser_video.mp4" type="video/mp4">
+        <video id="teaser-video" autoplay muted loop playsinline height="100%">
+          <source src="./resources/teaser_video_v3_compressed_short.mp4" type="video/mp4">
         </video>
-        <h2 class="subtitle" style="text-align: center;">
-        </h2>
+        <h2 class="subtitle" style="text-align: center;"></h2>
       </div>
     </div>
   </section>
 
 
-  <section class="section">
+  <section class="section" style="padding-top: 1rem;">
     <div class="container is-max-desktop">
 
       <div class="columns is-centered">
         <div class="column is-full-width has-text-centered">
-          <!-- <h2 class="title is-3">Camera Pose Estimation</h2> -->
 
 
-          <h2 class="title is-5">Abstract</h2>
+          <h2 class="title is-4" style="font-weight: 700;">Abstract</h2>
           <div class="content has-text-justified">
             <p>
               We present <b>VGGT</b>, a feed-forward neural network that directly infers all key 3D attributes of a scene, including camera parameters, point maps, depth maps, and 3D point tracks, from one, a few, or hundreds of its views.
@@ -205,7 +210,7 @@
           <br>
 
 
-          <h2 class="title is-5">Method</h2>
+          <h2 class="title is-4" style="font-weight: 700;">Method</h2>
           <div class="content has-text-justified">
             <p>
               VGGT first patchifies the input images into tokens by DINO, and appends camera tokens for camera prediction. It then alternates between frame-wise and global self attention layers. A camera head makes the final prediction for camera extrinsics and intrinsics, while a DPT head for any dense output, such as depth maps, point maps, or feature maps for tracking.
@@ -213,12 +218,12 @@
           </div>
           <div class="content has-text-centered">
             <!-- <img id="teaser" src="https://placehold.co/600x400" alt="Teaser image" style="width: 100%;"> -->
-            <img id="teaser" src="./resources/architecture_v4.png" alt="Architecture" style="width: 100%;">
+            <img id="architecture-img" src="./resources/architecture_v4.png" alt="Architecture">
           </div>
           <br>
 
 
-          <h2 class="title is-5">Qualitative Visualization</h2>
+          <h2 class="title is-4" style="font-weight: 700;">Qualitative Visualization</h2>
           <div class="content has-text-centered">
             <p>
               Reconstruction of In-the-wild Photos/Videos with VGGT. Click on any thumbnail below to view the 3D reconstruction.
@@ -232,18 +237,18 @@
                           touch-action="pan-y" environment-image="legacy"
                           camera-orbit="180deg 70deg auto" 
                           zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
-                        max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
-                        disable-shadow ar-modes="webxr scene-viewer quick-look"
-                        style="width: 100%; height: 100%; background: #ffffff;">
+                          max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
+                          disable-shadow ar-modes="webxr scene-viewer quick-look"
+                          style="width: 90%; height: 90%; background: #ffffff; margin: 0 auto;">
             </model-viewer>
           </div>
           <br>
           <div class="content has-text-centered">
             <div class="thumbnail-container" id="thumbnail-qualitative">
               <img src="resources/qualitative/college.png" data-glb="resources/qualitative/college_v2.glb">
-              <video src="resources/qualitative/pyramid.mp4" data-glb="resources/qualitative/pyramid_v2.glb" autoplay loop playsinline muted></video>
-              <video src="resources/qualitative/outdoor_room.mp4" data-glb="resources/qualitative/outdoor_room_v2.glb" autoplay loop playsinline muted></video>
-              <video src="resources/qualitative/colosseum.mp4" data-glb="resources/qualitative/colosseum_v3.glb" autoplay loop playsinline muted></video>
+              <video src="resources/qualitative/pyramid.mp4" data-glb="resources/qualitative/pyramid_v3.glb" loop playsinline muted></video>
+              <video src="resources/qualitative/outdoor_room.mp4" data-glb="resources/qualitative/outdoor_room_v2.glb" loop playsinline muted></video>
+              <video src="resources/qualitative/colosseum.mp4" data-glb="resources/qualitative/colosseum_v4.glb" loop playsinline muted></video>
               <img src="resources/qualitative/chess.jpg" data-glb="resources/qualitative/chess_v2.glb">
               <img src="resources/qualitative/indoor.jpg" data-glb="resources/qualitative/indoor_v2.glb">
             </div>  
@@ -282,10 +287,26 @@
                     
                     // Add selection class to clicked element
                     el.classList.add('thumbnail-selected');
+                    
+                    // Play video if it's a video element
+                    if (el.tagName.toLowerCase() === 'video') {
+                        el.play();
+                    }
+                    
+                    // Pause all other videos
+                    document.querySelectorAll('#thumbnail-qualitative video').forEach(video => {
+                        if (video !== el) {
+                            video.pause();
+                            video.currentTime = 0;
+                        }
+                    });
                 });
             });
           </script>
-          <h2 class="title is-5">Qualitative Comparison</h2>
+
+          <br>
+
+          <h2 class="title is-4" style="font-weight: 700;">Qualitative Comparison</h2>
           <div class="content has-text-justified" style="align-self: flex-start;">
             <p>
                Coming 
@@ -334,15 +355,10 @@
           <div class="hero-body" style="padding: 0;">
             <div class="content has-text-centered">
               <div class="thumbnail-container", id="thumbnail-comparison", data-selected-name="Colosseum">
-                <video src="resources/Colosseum.mp4" name="Colosseum" autoplay loop playsinline muted>  </video>
-                <video src="resources/pyramid.mp4" name="pyramid" autoplay loop playsinline muted>  </video>
+                <video src="resources/Colosseum.mp4" name="Colosseum" loop playsinline muted>  </video>
+                <video src="resources/pyramid.mp4" name="pyramid" loop playsinline muted>  </video>
               </div>  
             </div>  
-            <!-- <div class="selection-panel" id="comparisonSelectionPanel"
-              style="width: 90% !important; aspect-ratio: 3.8/1; margin-left: 5%;">
-              <img class="selectable-image selected" name="pyramid">
-              <img class="selectable-image" name="animate_girl">
-            </div> -->
           </div>
 
 
@@ -351,13 +367,9 @@
     </div>
   </section>
   
-
-
-
-  <!--/BibTeX. -->
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
-      <h2 class="title">BibTeX</h2>
+      <h2 class="title is-4" style="font-weight: 700;">BibTeX</h2>
       <pre><code>@inproceedings{wang2025vggt,
   title={VGGT: Visual Geometry Grounded Transformer},
   author={Wang, Jianyuan and Chen, Minghao and Karaev, Nikita and Vedaldi, Andrea and Rupprecht, Christian and Novotny, David},
@@ -369,14 +381,14 @@
 
   
 
-  <section class="section" id="Acknowledgements">
+  <section class="section" id="Acknowledgements" style="padding-top: 0rem;">
     <div class="container is-max-desktop content">
-      <h2 class="title">Acknowledgements</h2>
+      <h2 class="title is-4" style="font-weight: 700;">Acknowledgements</h2>
       <p>
         Jianyuan Wang is supported by Facebook Research.
       </p>
       <p>
-        We are deeply grateful for the insightful discussions and invaluable support provided by Stanislaw Szymanowicz,  Junyu Xie, Johannes Schönberger, Shangzhe Wu, Chuanxia Zheng, Junlin Han, Ang Cao, Nikhil Keetha, Shangzhan Zhang, Yuxi Xiao, Qianqian Wang, Yinghao Xu, Ceyuan Yang, Nan Xue, Yujun Shen, Roman Shapovalov, João Henriques, and Andrew Zisserman.
+        We are deeply grateful for the insightful discussions and invaluable support provided by Stanislaw Szymanowicz,  Junyu Xie, Johannes Schönberger, Shangzhe Wu, Chuanxia Zheng, Junlin Han, Ang Cao, Nikhil Keetha, Chris Offner, Shangzhan Zhang, Yuxi Xiao, Qianqian Wang, Yinghao Xu, Ceyuan Yang, Nan Xue, Yujun Shen, Roman Shapovalov, João Henriques, and Andrew Zisserman.
       </p>
       <p>
         We appreciate the great examples provided by Depth-Anything-V2 and Metric3D V2.
