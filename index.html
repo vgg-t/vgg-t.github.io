@@ -51,6 +51,59 @@
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
+
+  <!-- Add responsive styles -->
+  <style>
+    /* General responsive styling */
+    .container {
+      width: 100%;
+      padding: 0 15px;
+    }
+    
+    /* Mobile-specific styles */
+    @media (max-width: 768px) {
+      .title.is-4.publication-title {
+        font-size: 1.5rem !important;
+      }
+      
+      .publication-authors {
+        font-size: 0.9rem !important;
+      }
+      
+      #teaser-video {
+        max-width: 100%;
+      }
+      
+      /* Thumbnail containers */
+      .thumbnail-container {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 10px 0;
+        gap: 10px;
+      }
+      
+      .thumbnail-container img, 
+      .thumbnail-container video {
+        width: 150px;
+        flex: 0 0 auto;
+        height: auto;
+      }
+      
+      /* Model comparison section */
+      #model-compare-wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .model-wrapper-comparison {
+        width: 100% !important;
+        height: 250px !important;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -155,27 +208,48 @@
       max-width: 85%;
       margin: 0 auto;
       display: block;
-      border: none; /* remove the solid border */
+      border: none;
       border-radius: 4px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
     
     #architecture-img {
       width: 90%;
+      max-width: 100%; /* Ensure image is never wider than container */
       margin: 0 auto;
       display: block;
       border: none;
-      border-radius: 0; /* removed border radius */
-      box-shadow: none; /* removed box shadow */
+      border-radius: 0;
+      box-shadow: none;
     }
     
     /* Enhanced style to further reduce space between buttons and teaser video */
     .hero.teaser {
       padding-top: 0;
-      margin-top: -3rem; /* Added negative margin to pull the teaser section up */
+      margin-top: -3rem;
     }
+    
     .hero.teaser .hero-body {
-      padding-top: 0; /* Reduced from 1rem to 0 */
+      padding-top: 0;
+    }
+    
+    /* Responsive text adjustments */
+    @media (max-width: 768px) {
+      .hero.teaser {
+        margin-top: -1.5rem;
+      }
+      
+      #teaser-video {
+        max-width: 100%;
+      }
+      
+      .content.has-text-justified p {
+        text-align: left;
+      }
+      
+      .title.is-4 {
+        font-size: 1.25rem !important;
+      }
     }
   </style>
   <section class="hero teaser">
@@ -338,13 +412,13 @@
                 src="resources/comparison/ours/oil.glb"
                 zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
                 max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
-                style="width: 100%; height: 100%;  background: #ffffff;">
+                style="width: 100%; height: 100%; background: #ffffff;">
               </model-viewer>
             </div>
             <!-- Model 2 Viewer with Label -->
             <div class="model-wrapper-comparison">
               <div class="model-label">DUSt3R</div>
-              <model-viewer id="modelViewerComparison2"loading="eager"
+              <model-viewer id="modelViewerComparison2" loading="eager"
                 touch-action="pan-y" environment-image="legacy"
                 src="resources/comparison/dust3r/oil.glb"
                 zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
@@ -356,7 +430,6 @@
             <div class="model-wrapper-comparison">
               <select id="comparisonBaselineSelection" class="dropdown model-label">
                 <option value="mvdust3r">MV-DUSt3R</option>
-                <!-- <option value="fast3r">Fast3R</option> -->
               </select>
               <model-viewer id="modelViewerComparison3" loading="eager"
                 touch-action="pan-y" environment-image="legacy"
@@ -521,6 +594,143 @@
       });
     });
   </script>
+
+  <!-- Add this style block before the existing styles for the model container -->
+  <style>
+    /* Refined model viewer container styling */
+    .model-viewer-container {
+      width: 100%;
+      height: 450px;
+      margin: 0 auto;
+    }
+    
+    model-viewer {
+      margin: 0 auto;
+    }
+    
+    /* Center thumbnails better */
+    .thumbnail-container {
+      padding: 0 5px;
+    }
+    
+    @media (max-width: 768px) {
+      #QualitativeResult {
+        width: 100% !important;
+        margin: 0 auto;
+      }
+      
+      .model-wrapper-comparison {
+        margin-bottom: 15px;
+      }
+      
+      .thumbnail-container {
+        justify-content: flex-start; /* Left-align for better scrolling experience */
+        padding: 5px 0;
+      }
+      
+      /* Make thumbnails smaller */
+      .thumbnail-container img,
+      .thumbnail-container video {
+        width: 120px;
+        height: 80px;
+      }
+    }
+  </style>
+
+  <!-- Add this style block to refine container widths -->
+  <style>
+    /* Improved container width controls */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 10px; /* Reduce side padding */
+        max-width: 100%;
+      }
+      
+      .container.is-max-desktop {
+        max-width: 100% !important; /* Override Bulma's max-width */
+      }
+      
+      /* Reduce content width to improve readability */
+      .content.has-text-justified,
+      .content p {
+        max-width: 95%;
+        margin: 0 auto;
+        font-size: 0.95rem;
+      }
+      
+      /* Make the architecture image fit better */
+      #architecture-img {
+        width: 95%;
+      }
+      
+      /* Adjust model viewer dimensions */
+      .model-viewer-container {
+        height: 350px;
+        width: 95%;
+        margin: 0 auto;
+      }
+      
+      model-viewer {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      
+      /* Make buttons smaller and fit better */
+      .publication-links .button {
+        font-size: 0.85rem;
+        padding: 0 0.75rem;
+      }
+      
+      /* Reduce section padding */
+      .section {
+        padding: 1.5rem 0.5rem;
+      }
+      
+      /* Make BibTeX section fit within screen */
+      pre {
+        max-width: 95%;
+        margin: 0 auto;
+        overflow-x: auto;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+
+  <!-- Updated author responsive styling -->
+  <style>
+    @media (max-width: 768px) {
+      .publication-authors {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        width: 100%;
+        padding: 0 10px;
+      }
+      
+      .publication-authors .author-block {
+        margin: 0 !important;
+        line-height: 1.4;
+      }
+      
+      .columns.is-centered {
+        margin: 0;
+      }
+      
+      /* Fix title width */
+      .title.is-4.publication-title {
+        width: 95%;
+        margin: 0 auto 1rem auto;
+        line-height: 1.3;
+      }
+      
+      /* Add a max-width to the acknowledgements section */
+      #Acknowledgements .content p {
+        max-width: 95%;
+        margin: 0 auto 1rem auto;
+      }
+    }
+  </style>
 
 </body>
 
