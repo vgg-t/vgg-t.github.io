@@ -372,7 +372,7 @@
           <h2 class="title is-4" style="font-weight: 700;">Qualitative Comparison</h2>
           <div class="content has-text-justified" style="align-self: flex-start;">
             <p>
-               VGGT significantly outperforms all other methods across various tasks. Please refer to our paper for quantitative results. Here we also provide a qualitative comparison with DUSt3R and other concurrent works such as Fast3R.
+               VGGT significantly outperforms all other methods across various tasks. Please refer to our paper for quantitative results. Here we also provide a qualitative comparison with DUSt3R and other concurrent works such as Fast3R and FLARE (use the dropdown menu to switch).
             </p>
           </div>
 
@@ -383,7 +383,7 @@
               <div class="model-label">VGGT</div>
               <model-viewer id="modelViewerComparison1" loading="eager"
                 touch-action="pan-y" environment-image="legacy"
-                src="resources/comparison/ours/oil.glb"
+                src="resources/comparison/ours/college.glb"
                 zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
                 max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
                 style="width: 100%; height: 100%;  background: #ffffff;">
@@ -394,7 +394,7 @@
               <div class="model-label">DUSt3R</div>
               <model-viewer id="modelViewerComparison2"loading="eager"
                 touch-action="pan-y" environment-image="legacy"
-                src="resources/comparison/dust3r/oil.glb"
+                src="resources/comparison/dust3r/college.glb"
                 zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
                 max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
                 style="width: 100%; height: 100%; background: #ffffff;">
@@ -404,12 +404,12 @@
             <div class="model-wrapper-comparison">
               <select id="comparisonBaselineSelection" class="dropdown model-label">
                 <option value="fast3r">Fast3R</option>
-                <!-- <option value="flare">FLARE</option>
-                <option value="cut3r">CUT3R</option> -->
+                <option value="flare">FLARE</option>
+                <!-- <option value="cut3r">CUT3R</option> -->
               </select>
               <model-viewer id="modelViewerComparison3" loading="eager"
                 touch-action="pan-y" environment-image="legacy"
-                src="resources/comparison/fast3r/oil.glb"
+                src="resources/comparison/fast3r/college.glb"
                 zoom-sensitivity="0.2" camera-controls disable-tap min-camera-orbit="auto auto 1m"
                 max-camera-orbit="auto auto 10m" interaction-prompt="none" shadow-intensity="0" ar
                 style="width: 100%; height: 100%; background: #ffffff;">
@@ -419,8 +419,8 @@
           <div class="hero-body" style="padding: 0;">
             <div class="content has-text-centered">
               <div class="thumbnail-container", id="thumbnail-comparison", data-selected-name="Colosseum">                
-                <img src="resources/comparison/assets/oil.png" name="oil">
                 <img src="resources/comparison/assets/college.png" name="college">
+                <img src="resources/comparison/assets/oil.png" name="oil">
                 <video src="resources/comparison/assets/fern.mp4" name="fern" loop playsinline muted></video>
                 <video src="resources/comparison/assets/pyramid.mp4" name="pyramid" loop playsinline muted></video>
               </div>  
